@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sport and the Church Through Time — PTSM 7392</title>
+<style>
+  :root {
+    --green: #154734; --gold: #FFB81C;
+    --ink: #12352a; --muted: #5f7068;
+    --soft-green: #e7f1ed; --soft-gold: #fff4d8; --line: #cfddd7;
+    --danger: #b42318; --danger-soft: #ffe5e2;
+    --success: #1f7a46; --success-soft: #e2f5e8;
+    --shadow: 0 22px 60px rgba(21, 71, 52, 0.16);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Proxima Nova", "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(255,184,28,0.28), transparent 30rem),
+      linear-gradient(135deg, #f7fbf8 0%, #eef7f3 100%);
+    min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* ---- Layout ------------------------------------------------------------
+     Phone-first single column. At the 1366x1366 LMS frame the container
+     widens and vertical rhythm tightens, so activities fit without the
+     retrofitted !important layer the previous course needed.              */
+  main {
+    width: min(100%, 46rem);
+    margin: 0 auto;
+    padding: clamp(1rem, 3vw, 1.75rem) clamp(0.85rem, 3vw, 1.5rem) 1.25rem;
+  }
+  @media (min-width: 1100px) and (min-height: 900px) {
+    main { width: min(100%, 1180px); padding-top: 1rem; padding-bottom: 1rem; }
+    h1 { font-size: 1.7rem !important; margin-bottom: 0.25rem !important; }
+    .card { padding: 0.85rem 1.1rem; margin-bottom: 0.7rem; }
+    .lede { margin-bottom: 0.2rem; }
+    /* Opt-in helpers: an activity adds these to its own containers. */
+    .fit-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; align-items: start; }
+    .fit-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; align-items: start; }
+    .fit-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.55rem; align-items: start; }
+    .fit-2 > *, .fit-3 > *, .fit-4 > * { margin-bottom: 0 !important; }
+    .fit-span { grid-column: 1 / -1; }
+  }
+
+  /* Course banner. Decorative — alt="" and role="presentation" keep it out of
+     the accessibility tree, since it carries no information a student needs.
+     It scales with the container at its natural 20:3 ratio, so it costs about
+     177px of height in the wide frame and only ~56px on a phone. */
+  .course-banner {
+    display: block; width: 100%; height: auto;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: clamp(0.7rem, 2vw, 1rem);
+  }
+  @media (min-width: 1100px) and (min-height: 900px) {
+    .course-banner { margin-bottom: 0.55rem; }
+  }
+  @media print { .course-banner { display: none; } }
+
+  .card {
+    background: rgba(255,255,255,0.94);
+    border: 2px solid rgba(21,71,52,0.1);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: clamp(1rem, 3vw, 1.5rem);
+    margin-bottom: clamp(0.8rem, 2.2vw, 1.15rem);
+  }
+  .eyebrow {
+    display: inline-block; background: var(--soft-gold); color: var(--green);
+    font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase; border-radius: 999px;
+    padding: 0.3rem 0.85rem; margin: 0 0 0.65rem;
+  }
+  h1 { color: var(--green); font-size: clamp(1.35rem, 4.5vw, 1.85rem); line-height: 1.2; margin: 0 0 0.5rem; }
+  h2 { color: var(--green); font-size: 1.1rem; margin: 0 0 0.5rem; }
+  h3 { color: var(--green); font-size: 0.98rem; margin: 0 0 0.35rem; }
+  p { line-height: 1.55; margin: 0 0 0.6rem; }
+  .lede { color: var(--muted); font-weight: 600; }
+  .hint { color: var(--muted); font-size: 0.88rem; }
+
+  /* ---- Controls ---------------------------------------------------------- */
+  .btn {
+    min-height: 2.9rem; padding: 0 1.1rem;
+    border: 2px solid var(--green); border-radius: 8px;
+    background: #fff; color: var(--green);
+    font: inherit; font-weight: 800; font-size: 0.95rem; cursor: pointer;
+    transition: background 150ms ease, color 150ms ease, opacity 150ms ease;
+  }
+  .btn:not(:disabled):hover, .btn:not(:disabled):focus-visible { background: var(--green); color: #fff; outline: none; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn.primary { background: var(--gold); border-color: var(--gold); }
+  .btn.primary:not(:disabled):hover, .btn.primary:not(:disabled):focus-visible { background: var(--green); border-color: var(--green); color: #fff; }
+  .controls { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.7rem; }
+  .controls .btn { flex: 1 1 10rem; }
+
+  select, input[type="text"], textarea {
+    font: inherit; color: var(--ink); background: #fff;
+    border: 2px solid var(--line); border-radius: 6px;
+    padding: 0.45rem 0.55rem; min-height: 2.6rem;
+  }
+  select:focus-visible, input:focus-visible, textarea:focus-visible,
+  button:focus-visible, [tabindex]:focus-visible, a:focus-visible {
+    outline: 3px solid var(--gold); outline-offset: 2px;
+  }
+
+  /* State signalling always pairs colour with a mark or text (WCAG 1.4.1). */
+  .is-correct { border-color: var(--success) !important; background: var(--success-soft); }
+  .is-wrong   { border-color: var(--danger) !important;  background: var(--danger-soft); }
+  .mark { font-weight: 900; margin-right: 0.3rem; }
+  .mark.ok { color: var(--success); }
+  .mark.no { color: var(--danger); }
+
+  .progress-track { height: 0.55rem; background: var(--soft-green); border-radius: 999px; overflow: hidden; margin-top: 0.6rem; }
+  .progress-fill { height: 100%; width: 0%; background: var(--green); transition: width 220ms ease; }
+
+  /* ---- Completion summary (must report what actually happened) ---------- */
+  #summary[hidden] { display: none; }
+  #summary { border-color: var(--success); }
+  #summary h2 { display: flex; align-items: center; gap: 0.4rem; }
+  .summary-score { font-size: 1.05rem; font-weight: 900; color: var(--green); margin: 0 0 0.6rem; }
+  .summary-list { margin: 0 0 0.6rem; padding-left: 1.1rem; }
+  .summary-list li { margin-bottom: 0.25rem; line-height: 1.45; }
+  .summary-group { margin-bottom: 0.7rem; }
+  .summary-group h3 { margin-bottom: 0.2rem; }
+
+  /* ---- Two-part activities ---------------------------------------------
+     Some modules combine two activities into one sequential experience.
+     Only one part is on screen at a time, so a merged activity costs no more
+     height than the taller of its two halves.                             */
+  .part-steps { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
+  .part-step {
+    flex: 1 1 12rem; text-align: left;
+    border: 2px solid var(--line); border-radius: 8px;
+    background: rgba(255,255,255,0.9); color: var(--muted);
+    padding: 0.5rem 0.75rem; font: inherit; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; transition: border-color 150ms ease, color 150ms ease;
+  }
+  .part-step .part-n { display: block; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .part-step[aria-current="true"] { border-color: var(--green); color: var(--green); background: var(--soft-green); }
+  .part-step[data-state="done"] { border-color: var(--success); color: var(--success); }
+  .part-step[data-state="done"] .part-n::after { content: " ✓"; }
+  .part-step[data-state="locked"] { opacity: 0.55; cursor: not-allowed; }
+  .part-step[data-state="locked"] .part-n::after { content: " (locked)"; }
+  .part-panel[hidden] { display: none; }
+
+  .visually-hidden {
+    position: absolute !important; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  /* ---- Finish bar -------------------------------------------------------- */
+  .finish-bar {
+    position: sticky; bottom: 0; z-index: 30;
+    padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+    background: rgba(247, 251, 248, 0.92);
+    backdrop-filter: blur(6px); border-top: 2px solid var(--line);
+  }
+  .finish-button {
+    display: block; width: min(100%, 22rem); margin: 0 auto; min-height: 3rem;
+    border: 2px solid var(--gold); border-radius: 8px;
+    background: var(--gold); color: var(--green);
+    font: inherit; font-weight: 900; font-size: 1.05rem; cursor: pointer;
+    transition: background 160ms ease, color 160ms ease, opacity 160ms ease;
+  }
+  .finish-button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .finish-button:not(:disabled):hover, .finish-button:not(:disabled):focus-visible {
+    background: var(--green); border-color: var(--green); color: #ffffff; outline: none;
+  }
+  @keyframes finish-pop { 0%{transform:scale(1)} 50%{transform:scale(1.04)} 100%{transform:scale(1)} }
+  .finish-button.enabled-pop { animation: finish-pop 600ms ease 2; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+  @media (max-width: 520px) {
+    .controls { flex-direction: column; }
+    .controls .btn { flex: none; width: 100%; }
+    select, input[type="text"] { width: 100%; }
+  }
+
+.tl-eras { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; }
+.tl-eras .btn { flex: 1 1 auto; text-align: left; line-height: 1.2; }
+.tl-eras .btn.is-current { background: var(--green); color: #fff; border-color: var(--green); box-shadow: inset 0 -4px 0 var(--gold); }
+.tl-eras .era-count { display: block; font-size: 0.78em; opacity: 0.85; }
+.tl-era { display: none; }
+.tl-era.is-visible { display: block; }
+.tl-era h2 { margin: 0 0 0.25rem; }
+.tl-era .era-span { margin: 0 0 0.75rem; color: #555; }
+.tl-events { display: grid; gap: 0.75rem; }
+.event { display: flex; flex-direction: column; align-items: stretch; text-align: left; width: 100%; padding: 0.75rem 0.9rem; border: 2px solid #d7d7d7; border-radius: 10px; background: #fff; cursor: pointer; font: inherit; color: inherit; }
+.event:hover { border-color: var(--green); }
+.event.is-open { border-color: var(--green); }
+.event.is-opened { border-left: 6px solid var(--gold); }
+.event .event-date { font-size: 0.82rem; font-weight: 700; color: var(--green); letter-spacing: 0.03em; text-transform: uppercase; }
+.event .event-title { font-weight: 700; margin: 0.15rem 0 0.25rem; }
+.event .event-body { display: none; margin: 0.35rem 0 0; font-size: 0.93rem; line-height: 1.45; }
+.event.is-open .event-body { display: block; }
+.event .event-state { margin-top: 0.4rem; font-size: 0.85rem; color: #555; }
+.event.is-opened .event-state { color: var(--green); font-weight: 600; }
+.tl-progress { margin: 1rem 0 0.5rem; }
+.tl-progress p { margin: 0 0 0.35rem; }
+.kc { margin-top: 1.25rem; }
+.kc.is-locked { display: none; }
+.kc-q { margin-bottom: 1rem; }
+.kc-q h3 { margin: 0 0 0.5rem; font-size: 1.02rem; }
+.kc-options { display: grid; gap: 0.4rem; }
+.kc-opt { text-align: left; width: 100%; padding: 0.55rem 0.8rem; border: 2px solid #cfcfcf; border-radius: 8px; background: #fff; font: inherit; color: inherit; cursor: pointer; }
+.kc-opt:hover:not(:disabled) { border-color: var(--green); }
+.kc-opt:disabled { cursor: default; opacity: 0.85; }
+.kc-opt.is-correct { border-color: var(--green); background: #eaf4ee; }
+.kc-opt.is-wrong { border-color: #b3261e; background: #fbecea; }
+.kc-feedback { margin: 0.4rem 0 0; font-size: 0.93rem; }
+@media (min-width: 1100px) and (min-height: 900px) {
+  .tl-eras { flex-wrap: nowrap; }
+  .kc-options { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<main>
+  
+  <header class="card">
+    <span class="eyebrow">PTSM 7392 · Sports and Christianity in Historical Perspective</span>
+    <h1>Sport and the church through time</h1>
+    <p class="lede">Move through six eras. Open every event to read what happened and why it mattered, then answer the knowledge check to finish.</p>
+  </header>
+
+<section class="card" aria-labelledby="tl-nav-heading">
+  <h2 id="tl-nav-heading" class="visually-hidden">Choose an era</h2>
+  <div class="tl-eras" role="tablist" aria-label="Eras" id="tl-eras"></div>
+  <div id="tl-panels"></div>
+  <div class="tl-progress">
+    <p id="tl-progress-text">0 of 22 events opened.</p>
+    <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="tl-progress-fill" style="width:0%"></div></div>
+    <p class="hint" id="tl-unlock-hint">Open all 22 events across the six eras to unlock the knowledge check.</p>
+  </div>
+</section>
+
+<section class="card kc is-locked" id="kc" aria-labelledby="kc-heading">
+  <h2 id="kc-heading">Knowledge check</h2>
+  <p class="hint">Five questions. You get one attempt at each; the answer is revealed as soon as you choose.</p>
+  <div id="kc-questions"></div>
+  <div class="controls">
+    <button type="button" class="btn primary" id="kc-submit" disabled>Submit knowledge check</button>
+    <span class="hint" id="kc-status">Answer all five questions to submit.</span>
+  </div>
+</section>
+
+  <section id="summary" class="card" hidden aria-labelledby="summary-heading">
+    <h2 id="summary-heading">How you did</h2>
+    <p class="summary-score" id="summary-score"></p>
+    <div id="summary-detail"></div>
+    <p class="hint" id="summary-note"></p>
+  </section>
+</main>
+
+<div id="live-region" class="visually-hidden" role="status" aria-live="polite"></div>
+
+<footer class="finish-bar">
+  <button type="button" id="finish-button" class="finish-button" disabled>Finish</button>
+</footer>
+
+<script>
+/* ---- SCORM 1.2 wrapper. Degrades silently to standalone preview. -------- */
+const SCORM = (() => {
+  let api = null, initialized = false, finished = false;
+  function findApi(win) {
+    let current = win, attempts = 0;
+    try {
+      while (current && !current.API && current.parent && current.parent !== current && attempts < 500) {
+        attempts += 1; current = current.parent;
+      }
+      if (current && current.API) return current.API;
+      if (win.opener && !win.opener.closed) return findApi(win.opener);
+    } catch (e) { return null; }
+    return null;
+  }
+  function call(method, ...args) {
+    if (!api || typeof api[method] !== "function") return "false";
+    try { return api[method](...args); } catch (e) { return "false"; }
+  }
+  function init() {
+    if (initialized) return true;
+    api = findApi(window);
+    if (!api) return false;
+    initialized = call("LMSInitialize", "") === "true";
+    if (initialized) {
+      const prior = call("LMSGetValue", "cmi.core.lesson_status");
+      if (prior !== "completed" && prior !== "passed") {
+        call("LMSSetValue", "cmi.core.lesson_status", "incomplete");
+      }
+      call("LMSSetValue", "cmi.core.score.min", "0");
+      call("LMSSetValue", "cmi.core.score.max", "100");
+      call("LMSCommit", "");
+    }
+    return initialized;
+  }
+  function setScore(raw) {
+    if (!initialized) return;
+    call("LMSSetValue", "cmi.core.score.raw", String(raw));
+    call("LMSCommit", "");
+  }
+  function finishActivity(score) {
+    if (finished) return;
+    if (initialized) {
+      call("LMSSetValue", "cmi.core.lesson_status", "completed");
+      if (score !== null && score !== undefined) call("LMSSetValue", "cmi.core.score.raw", String(score));
+      call("LMSCommit", "");
+      call("LMSFinish", "");
+    }
+    finished = true;
+  }
+  function unloadSafety() {
+    if (finished || !initialized) return;
+    call("LMSCommit", ""); call("LMSFinish", ""); finished = true;
+  }
+  window.addEventListener("pagehide", unloadSafety);
+  window.addEventListener("beforeunload", unloadSafety);
+  return { init, setScore, finishActivity };
+})();
+SCORM.init();
+
+/* ---- Activity API -------------------------------------------------------
+   The only surface an activity script needs. Handles the Finish button,
+   the live region, the score, and the completion summary, so no activity
+   re-implements them (or gets them subtly wrong).                        */
+const Activity = (() => {
+  const finishBtn = document.getElementById("finish-button");
+  const live = document.getElementById("live-region");
+  const summaryEl = document.getElementById("summary");
+  const scoreEl = document.getElementById("summary-score");
+  const detailEl = document.getElementById("summary-detail");
+  const noteEl = document.getElementById("summary-note");
+  let firstScore = null;   // frozen on first completion so review passes can't inflate it
+  let ready = false;
+
+  function announce(msg) { live.textContent = ""; setTimeout(() => { live.textContent = msg; }, 40); }
+
+  function setReady(on, msg) {
+    ready = !!on;
+    finishBtn.disabled = !ready;
+    if (ready) {
+      finishBtn.classList.add("enabled-pop");
+      setTimeout(() => finishBtn.classList.remove("enabled-pop"), 1400);
+      if (msg) announce(msg);
+    }
+  }
+
+  /* Report the truth: right and missed are arrays of plain strings.
+     Passing neither still renders an honest "you finished" line.        */
+  function summarize({ score = null, right = [], missed = [], note = "" } = {}) {
+    if (firstScore === null && score !== null) firstScore = score;
+    const shown = firstScore === null ? null : firstScore;
+    if (shown !== null) {
+      const total = right.length + missed.length;
+      scoreEl.textContent = total
+        ? `${right.length} of ${total} correct on your first attempt — ${shown}%`
+        : `First-attempt score: ${shown}%`;
+    } else {
+      scoreEl.textContent = "Activity complete.";
+    }
+    detailEl.innerHTML = "";
+    const group = (title, items, cls) => {
+      if (!items.length) return;
+      const wrap = document.createElement("div");
+      wrap.className = "summary-group";
+      const h = document.createElement("h3");
+      h.innerHTML = `<span class="mark ${cls === "ok" ? "ok" : "no"}">${cls === "ok" ? "✓" : "✗"}</span>${title}`;
+      const ul = document.createElement("ul");
+      ul.className = "summary-list";
+      items.forEach(t => { const li = document.createElement("li"); li.textContent = t; ul.appendChild(li); });
+      wrap.appendChild(h); wrap.appendChild(ul); detailEl.appendChild(wrap);
+    };
+    group(`You got these right (${right.length})`, right, "ok");
+    group(`You missed these (${missed.length})`, missed, "no");
+    noteEl.textContent = note || "";
+    summaryEl.hidden = false;
+    summaryEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (shown !== null) SCORM.setScore(shown);
+  }
+
+  finishBtn.addEventListener("click", () => {
+    if (!ready) return;
+    SCORM.finishActivity(firstScore);
+    finishBtn.disabled = true;
+    finishBtn.textContent = "Finished ✓";
+    announce("Activity finished and reported as complete.");
+  });
+
+  return { setReady, announce, summarize, get score() { return firstScore; } };
+})();
+
+/* ---- Multi-part coordinator --------------------------------------------
+   For modules that merge two activities into one. Each part reports here
+   instead of calling Activity.setReady / Activity.summarize itself, and only
+   the last part to finish unlocks Finish. Without this, part one would enable
+   the Finish button and a student could submit half an activity.         */
+const Parts = (() => {
+  let expected = 0;
+  const results = new Map();
+  const listeners = [];
+
+  function expect(n) { expected = n; }
+  function isDone(i) { return results.has(i); }
+  function onDone(fn) { listeners.push(fn); }
+
+  function done(index, { score = null, right = [], missed = [], label = "" } = {}) {
+    if (results.has(index)) return;                 // first result stands
+    results.set(index, { score, right, missed, label });
+    listeners.forEach(fn => { try { fn(index); } catch (e) {} });
+    if (results.size < expected) {
+      Activity.announce(`Part ${index} complete. Part ${index + 1} is now available.`);
+      return;
+    }
+    // Merge both parts' results, keeping each item attributed to its part so
+    // the summary says which half a student actually struggled with.
+    // NB: these locals must NOT be named `right` / `missed` — those are already
+    // bound by this function's destructured parameter, and redeclaring them with
+    // const is a SyntaxError that kills the whole inline script silently.
+    const allRight = [], allMissed = [];
+    let weighted = 0, items = 0;
+    [...results.entries()].sort((a, b) => a[0] - b[0]).forEach(([i, r]) => {
+      const tag = r.label ? `${r.label}: ` : `Part ${i}: `;
+      r.right.forEach(t => allRight.push(tag + t));
+      r.missed.forEach(t => allMissed.push(tag + t));
+      const n = r.right.length + r.missed.length;
+      if (r.score !== null && n) { weighted += r.score * n; items += n; }
+      else if (r.score !== null) { weighted += r.score; items += 1; }
+    });
+    const finalScore = items ? Math.round(weighted / items) : null;
+    Activity.setReady(true, "Both parts complete. You can finish the activity.");
+    Activity.summarize({
+      score: finalScore, right: allRight, missed: allMissed,
+      note: "This activity had two parts; the summary above covers both.",
+    });
+  }
+  return { expect, done, isDone, onDone };
+})();
+
+(function () {
+  var ERAS = [
+    { id: 'era1', name: 'The ancient world', span: 'c. 776 BC – AD 400', events: [
+      { t: 'Olympic Games and the Greek gymnasium', d: '776 BC onward', b: 'Athletic contests were religious festivals held for Zeus; the gymnasium trained body and mind together. Early Christians inherited a world where sport and worship were already entangled — and where the contests honored other gods.' },
+      { t: 'Paul’s athletic metaphors', d: 'c. AD 50–60', b: '“Run in such a way as to get the prize” (1 Cor 9:24–27) and “I have fought the good fight, I have finished the race” (2 Tim 4:7). Paul assumes his readers know the stadium; the athlete’s discipline becomes an image of Christian perseverance.' },
+      { t: 'Tertullian’s <em>De Spectaculis</em>', d: 'c. AD 197', b: 'The North African theologian argued Christians should avoid the games and theater: their origins were pagan, their crowds idolatrous, their violence deforming. The first sustained Christian critique of spectator sport.' },
+      { t: 'The end of the ancient Games', d: 'AD 393', b: 'Emperor Theodosius I, a Christian, suppressed pagan festivals; the Olympic Games ceased. For a millennium the church’s relationship to organized sport is ambivalent at best.' }
+    ] },
+    { id: 'era2', name: 'Medieval and Reformation Europe', span: 'c. 1000–1650', events: [
+      { t: 'Tournaments, feast-day games, and church bans', d: '12th–14th c.', b: 'Village football and ball games clustered around holy days; church councils repeatedly banned tournaments and Sunday play, with limited effect. Sport lived in the gaps of the liturgical calendar.' },
+      { t: 'The <em>Book of Sports</em>', d: '1618 / 1633', b: 'James I and then Charles I declared that lawful recreations (archery, dancing, leaping) were permitted after Sunday worship — a direct rebuke to Puritan Sabbatarianism, and one of the sparks of the coming conflict.' },
+      { t: 'Puritan Sabbatarianism', d: '1640s', b: 'With Parliament’s victory the <em>Book of Sports</em> was burned and Sunday sport prohibited. The Puritan legacy — sport as a threat to the Lord’s Day — shaped Anglo-American attitudes for two centuries.' }
+    ] },
+    { id: 'era3', name: 'Muscular Christianity', span: '1850–1900', events: [
+      { t: 'Thomas Hughes, <em>Tom Brown’s School Days</em>', d: '1857', b: 'The novel made the public-school games field a training ground for Christian character: courage, fair play, self-denial. “Muscular Christianity” (a term coined by a reviewer) named a movement.' },
+      { t: 'Charles Kingsley and the theology of the body', d: '1850s–60s', b: 'Kingsley preached that a strong body served God’s purposes; physical vigor was a moral good, not a temptation. The idea gave middle-class Christians permission to play.' },
+      { t: 'The YMCA turns to sport', d: '1860s–1891', b: 'Founded in London (1844) for the spiritual welfare of young clerks, the YMCA in America built gymnasiums; James Naismith invented basketball at the Springfield YMCA training school in 1891 to keep young men active through winter.' },
+      { t: 'Church leagues and Sunday School sport', d: '1880s–1900', b: 'Congregations organized cricket, football and baseball teams; in Britain several professional clubs (Everton, Aston Villa, Southampton) began as church sides.' }
+    ] },
+    { id: 'era4', name: 'The American century', span: '1900–1960', events: [
+      { t: 'Billy Sunday, from ballplayer to evangelist', d: '1891–1935', b: 'The former Chicago White Stockings outfielder became the most famous revivalist of his day, using baseball slang and athletic showmanship in the pulpit. Sport now supplied the church with celebrities.' },
+      { t: 'Eric Liddell and the 1924 Olympics', d: '1924', b: 'The Scottish sprinter refused to run his best event on a Sunday, won gold in the 400m instead, and later died as a missionary in China. <em>Chariots of Fire</em> (1981) fixed the story in popular memory as the archetype of faith over sport.' },
+      { t: 'Jackie Robinson breaks the color line', d: '1947', b: 'Robinson, a devout Methodist, integrated Major League Baseball; Branch Rickey chose him partly for the faith and self-control he believed the ordeal would require. Robinson’s autobiography and later civil-rights work make him the course’s anchor case in sport, faith and justice.' },
+      { t: 'Fellowship of Christian Athletes founded', d: '1954', b: 'Don McClanen’s organization used the platform of coaches and athletes to evangelize young people — the beginning of the modern sports-ministry movement.' }
+    ] },
+    { id: 'era5', name: 'Sports ministry and the evangelical turn', span: '1960–2000', events: [
+      { t: 'Athletes in Action', d: '1966', b: 'Campus Crusade’s sports arm fielded touring teams that played college opponents and gave halftime testimonies; sport became a missions strategy.' },
+      { t: 'Chaplains in the locker room', d: '1970s–80s', b: 'Team chaplaincies spread through the NFL, MLB and college programs; the pre-game chapel became routine. Questions of access, denomination and player pressure followed.' },
+      { t: 'The prosperity of the “God gave me the victory” era', d: '1980s–90s', b: 'Post-game thanks to God became a broadcast fixture; theologians debated whether attributing wins to God trivialized providence or witnessed faithfully.' },
+      { t: 'Muscular Christianity re-examined', d: '1990s', b: 'Historians (Clifford Putney, Tony Ladd and James Mathisen) revisited the movement, asking what had been gained and lost as sport moved from character formation to evangelistic platform.' }
+    ] },
+    { id: 'era6', name: 'Contemporary questions', span: '2000–present', events: [
+      { t: 'Tebowing and public faith', d: '2011', b: 'Tim Tebow’s kneeling prayer went viral; the debate over public displays of faith in sport, and the backlash, showed how contested the space had become.' },
+      { t: 'Concussions, the body, and theology', d: '2010s', b: 'CTE research in football raised a question Tertullian would have recognized: can a Christian ethic bless a sport that damages the bodies of those who play it?' },
+      { t: 'Athlete mental health and the limits of the platform', d: '2021', b: 'Simone Biles’ withdrawal and Naomi Osaka’s press boycott shifted the conversation from witness to wellbeing; sports ministries began to speak of soul care rather than testimony.' },
+      { t: 'Youth sport, cost, and access', d: '2020s', b: 'Club sport’s expense and Sunday scheduling revived the old Sabbath question in new form — for families, churches and the sports ministries that serve them.' }
+    ] }
+  ];
+
+  var QUESTIONS = [
+    { q: 'Which early Christian writer argued that believers should avoid the games because of their pagan origins?', o: ['Tertullian', 'Augustine', 'Paul', 'Origen'], a: 0 },
+    { q: 'The <em>Book of Sports</em> (1618) is best described as', o: ['a royal declaration permitting Sunday recreations after worship', 'a Puritan ban on Sunday play', 'a rulebook for medieval tournaments', 'a YMCA training manual'], a: 0 },
+    { q: '“Muscular Christianity” is most closely associated with', o: ['Thomas Hughes and Charles Kingsley', 'Billy Sunday and Don McClanen', 'Tertullian and Theodosius', 'Eric Liddell and Tim Tebow'], a: 0 },
+    { q: 'Basketball was invented in 1891 at', o: ['a YMCA training school', 'a Puritan academy', 'a church cricket league', 'an Olympic training camp'], a: 0 },
+    { q: 'Branch Rickey reportedly chose Jackie Robinson partly because of', o: ['his faith and self-control', 'his batting average alone', 'his military rank', 'his Olympic medals'], a: 0 }
+  ];
+
+  var TOTAL_EVENTS = 22;
+  var openedCount = 0;
+  var openedFlags = {};
+  var perEraOpened = {};
+  var kcUnlocked = false;
+  var kcSubmitted = false;
+  var answers = []; // index of chosen option per question, or undefined
+
+  var erasEl = document.getElementById('tl-eras');
+  var panelsEl = document.getElementById('tl-panels');
+  var progressText = document.getElementById('tl-progress-text');
+  var progressFill = document.getElementById('tl-progress-fill');
+  var unlockHint = document.getElementById('tl-unlock-hint');
+  var kcEl = document.getElementById('kc');
+  var kcQuestionsEl = document.getElementById('kc-questions');
+  var kcSubmit = document.getElementById('kc-submit');
+  var kcStatus = document.getElementById('kc-status');
+
+  function stripTags(s) { return s.replace(/<[^>]+>/g, ''); }
+
+  // ---- Build era tabs and panels ----
+  ERAS.forEach(function (era, i) {
+    perEraOpened[era.id] = 0;
+
+    var tab = document.createElement('button');
+    tab.type = 'button';
+    tab.className = 'btn';
+    tab.setAttribute('role', 'tab');
+    tab.id = era.id + '-tab';
+    tab.setAttribute('aria-controls', era.id + '-panel');
+    tab.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    tab.innerHTML = '<span>Era ' + (i + 1) + ': ' + era.name + '</span><span class="era-count" id="' + era.id + '-count">0 of ' + era.events.length + ' opened</span>';
+    tab.addEventListener('click', function () { showEra(i); });
+    tab.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        var next = e.key === 'ArrowRight' ? (i + 1) % ERAS.length : (i - 1 + ERAS.length) % ERAS.length;
+        showEra(next);
+        document.getElementById(ERAS[next].id + '-tab').focus();
+      }
+    });
+    erasEl.appendChild(tab);
+
+    var panel = document.createElement('div');
+    panel.className = 'tl-era' + (i === 0 ? ' is-visible' : '');
+    panel.id = era.id + '-panel';
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', era.id + '-tab');
+    panel.innerHTML = '<h2>Era ' + (i + 1) + ' — ' + era.name + '</h2><p class="era-span">' + era.span + '</p>';
+
+    var grid = document.createElement('div');
+    grid.className = 'tl-events ' + (era.events.length === 3 ? 'fit-3' : 'fit-4');
+    era.events.forEach(function (ev, j) {
+      var key = era.id + '-' + j;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'event';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML =
+        '<span class="event-date">' + ev.d + '</span>' +
+        '<span class="event-title">' + ev.t + '</span>' +
+        '<span class="event-body">' + ev.b + '</span>' +
+        '<span class="event-state">Tap to open</span>';
+      btn.addEventListener('click', function () { toggleEvent(btn, key, era, ev); });
+      grid.appendChild(btn);
+    });
+    panel.appendChild(grid);
+    panelsEl.appendChild(panel);
+  });
+
+  function showEra(idx) {
+    ERAS.forEach(function (era, i) {
+      var tab = document.getElementById(era.id + '-tab');
+      var panel = document.getElementById(era.id + '-panel');
+      var on = i === idx;
+      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      tab.classList.toggle('is-current', on);
+      panel.classList.toggle('is-visible', on);
+    });
+  }
+  showEra(0);
+
+  function toggleEvent(btn, key, era, ev) {
+    var isOpen = btn.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (!openedFlags[key]) {
+      openedFlags[key] = true;
+      openedCount += 1;
+      perEraOpened[era.id] += 1;
+      btn.classList.add('is-opened');
+      btn.querySelector('.event-state').innerHTML = '<span class="mark ok" aria-hidden="true">✓</span> Opened';
+      document.getElementById(era.id + '-count').textContent = perEraOpened[era.id] + ' of ' + era.events.length + ' opened';
+      updateProgress();
+      Activity.announce('Opened: ' + stripTags(ev.t) + '. ' + openedCount + ' of ' + TOTAL_EVENTS + ' events opened.');
+    }
+  }
+
+  function updateProgress() {
+    progressText.textContent = openedCount + ' of ' + TOTAL_EVENTS + ' events opened.';
+    progressFill.style.width = Math.round(openedCount / TOTAL_EVENTS * 100) + '%';
+    if (openedCount === TOTAL_EVENTS && !kcUnlocked) {
+      kcUnlocked = true;
+      unlockHint.textContent = 'All events opened. The knowledge check is now available below.';
+      kcEl.classList.remove('is-locked');
+      Activity.announce('All 22 events opened. The knowledge check is now available.');
+      document.getElementById('kc-heading').setAttribute('tabindex', '-1');
+      document.getElementById('kc-heading').focus();
+    }
+  }
+
+  // ---- Build knowledge check ----
+  QUESTIONS.forEach(function (q, qi) {
+    var wrap = document.createElement('div');
+    wrap.className = 'kc-q';
+    wrap.id = 'kc-q' + (qi + 1);
+    var h = document.createElement('h3');
+    h.id = 'kc-q' + (qi + 1) + '-label';
+    h.innerHTML = 'Question ' + (qi + 1) + '. ' + q.q;
+    wrap.appendChild(h);
+    var opts = document.createElement('div');
+    opts.className = 'kc-options';
+    opts.setAttribute('role', 'group');
+    opts.setAttribute('aria-labelledby', h.id);
+    q.o.forEach(function (text, oi) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'kc-opt';
+      b.textContent = text;
+      b.addEventListener('click', function () { answer(qi, oi, wrap); });
+      opts.appendChild(b);
+    });
+    wrap.appendChild(opts);
+    var fb = document.createElement('p');
+    fb.className = 'kc-feedback';
+    fb.setAttribute('aria-live', 'polite');
+    wrap.appendChild(fb);
+    kcQuestionsEl.appendChild(wrap);
+  });
+
+  function answer(qi, oi, wrap) {
+    if (answers[qi] !== undefined || kcSubmitted) { return; }
+    answers[qi] = oi;
+    var q = QUESTIONS[qi];
+    var buttons = wrap.querySelectorAll('.kc-opt');
+    for (var k = 0; k < buttons.length; k++) {
+      buttons[k].disabled = true;
+      if (k === q.a) {
+        buttons[k].classList.add('is-correct');
+        buttons[k].innerHTML = '<span class="mark ok" aria-hidden="true">✓</span> ' + q.o[k] + (k === oi ? '' : ' <span class="visually-hidden">(correct answer)</span>');
+      } else if (k === oi) {
+        buttons[k].classList.add('is-wrong');
+        buttons[k].innerHTML = '<span class="mark no" aria-hidden="true">✗</span> ' + q.o[k] + ' <span class="visually-hidden">(your answer, incorrect)</span>';
+      }
+    }
+    var fb = wrap.querySelector('.kc-feedback');
+    if (oi === q.a) {
+      fb.textContent = '✓ Correct.';
+    } else {
+      fb.textContent = '✗ Not quite. The correct answer is: ' + q.o[q.a] + '.';
+    }
+    var answered = 0;
+    for (var i = 0; i < QUESTIONS.length; i++) { if (answers[i] !== undefined) { answered += 1; } }
+    if (answered === QUESTIONS.length) {
+      kcSubmit.disabled = false;
+      kcStatus.textContent = 'All five answered. Submit to finish.';
+    } else {
+      kcStatus.textContent = answered + ' of 5 answered.';
+    }
+  }
+
+  kcSubmit.addEventListener('click', function () {
+    if (kcSubmitted || openedCount < TOTAL_EVENTS) { return; }
+    for (var i = 0; i < QUESTIONS.length; i++) { if (answers[i] === undefined) { return; } }
+    kcSubmitted = true;
+    kcSubmit.disabled = true;
+    var right = [], missed = [];
+    QUESTIONS.forEach(function (q, qi) {
+      var label = 'Q' + (qi + 1) + ': ' + stripTags(q.q);
+      if (answers[qi] === q.a) { right.push(label); } else { missed.push(label); }
+    });
+    var score = Math.round(right.length / QUESTIONS.length * 100);
+    kcStatus.textContent = 'Submitted. Score: ' + right.length + ' out of 5.';
+    Activity.summarize({
+      score: score,
+      right: right,
+      missed: missed,
+      note: 'Timeline complete.'
+    });
+    Activity.setReady(true, 'Timeline complete. Knowledge check score: ' + right.length + ' out of 5.');
+    Activity.announce('Knowledge check submitted. Score ' + right.length + ' out of 5. You may now finish.');
+  });
+})();
+</script>
+</body>
+</html>
